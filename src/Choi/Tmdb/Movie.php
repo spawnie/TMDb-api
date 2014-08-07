@@ -2,9 +2,10 @@
 
 class Movie extends Base {
 
-	private $data   = array();
-	private $videos = array();
-	private $images = array();
+	private $data    = array();
+	private $videos  = array();
+	private $images  = array();
+	private $credits = array();
 
 	public function __construct($api_key, $tmdb_id)
 	{
@@ -44,6 +45,21 @@ class Movie extends Base {
 		}
 
 		return $this->images;
+	}
+
+	public function getCredits()
+	{
+		if(!$this->credits)
+		{
+			$response = $this->call('movie/'.$this->data['id'].'/credits');
+			$response = $response->toArray();
+			$this->credits = array(
+				'cast' => $response['cast'],
+				'crew' => $response['crew'],
+			);
+		}
+
+		return $this->credits;
 	}
 
 }
