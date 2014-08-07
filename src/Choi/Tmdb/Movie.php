@@ -4,6 +4,7 @@ class Movie extends Base {
 
 	private $data   = array();
 	private $videos = array();
+	private $images = array();
 
 	public function __construct($api_key, $tmdb_id)
 	{
@@ -28,6 +29,21 @@ class Movie extends Base {
 		}
 
 		return $this->videos;
+	}
+
+	public function getImages()
+	{
+		if(!$this->images)
+		{
+			$response     = $this->call('movie/'.$this->data['id'].'/images');
+			$response     = $response->toArray();
+			$this->images = array(
+				'backdrops' => $response['backdrops'],
+				'posters'   => $response['posters'],
+			);
+		}
+
+		return $this->images;
 	}
 
 }
