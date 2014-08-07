@@ -8,7 +8,7 @@ abstract class Base {
 	/**
 	 * Constructor
 	 *
-	 * @param   String  $api_key
+	 * @param   string  $api_key
 	 * @return  void
 	 */
 	public function __construct($api_key)
@@ -17,27 +17,46 @@ abstract class Base {
 	}
 
 	/**
-	 * Constructor
+	 * Helper getter
 	 *
-	 * @param   void
-	 * @return  void
+	 * @param   string  $helper
+	 * @return  Choi\Tmdb\Helper\Helper|bool
 	 */
-	public function getConfig()
+	public function helper($helper)
 	{
-		// If already a config stored, we won't fetch it again
-		if($config)
+		$class_name = ucfirst(strtolower($helper));
+		$class      = 'Choi\\Tmdb\\Helper\\'.$class_name;
+
+		if(!class_exists($class))
 		{
-			return;
+			return false;
 		}
 
-		$response = $this->call('configuration');
-		var_dump($response);
+		return $class::getInstance();
+	}
+
+	/**
+	 * Configuration getter
+	 *
+	 * @param   string  $key
+	 * @return  string|bool
+	 */
+	public function getConfig($key)
+	{
+		// If config haven't been fetched already we'll fetch it
+		if(!$this->config)
+		{
+			$response     = $this->call('configuration');
+			$this->config = $response->toArray();
+		}
+
+		return $this->helper('arr')->get($this->config, $key, false);
 	}
 
 	/**
 	 * URL Caller
 	 *
-	 * @param   String  $uri
+	 * @param   string  $uri
 	 * @param   [array  $data]
 	 * @return  array
 	 */
