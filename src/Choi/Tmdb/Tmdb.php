@@ -1,9 +1,8 @@
 <?php namespace Choi\Tmdb;
 
-class Tmdb {
+class Tmdb extends Base {
 	
 	public $search;
-	protected $api_key;
 
 	/**
 	 * The constructor
@@ -13,8 +12,9 @@ class Tmdb {
 	 */
 	public function __construct($api_key)
 	{
-		$this->api_key = $api_key;
-		$this->search  = new Search($api_key);
+		parent::__construct($api_key);
+		
+		$this->search = new Search($api_key);
 	}
 
 }

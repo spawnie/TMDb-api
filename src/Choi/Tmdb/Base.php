@@ -3,6 +3,7 @@
 abstract class Base {
 
 	protected $api_key;
+	protected $config = array();
 
 	/**
 	 * Constructor
@@ -13,6 +14,24 @@ abstract class Base {
 	public function __construct($api_key)
 	{
 		$this->api_key = $api_key;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param   void
+	 * @return  void
+	 */
+	public function getConfig()
+	{
+		// If already a config stored, we won't fetch it again
+		if($config)
+		{
+			return;
+		}
+
+		$response = $this->call('configuration');
+		var_dump($response);
 	}
 
 	/**
