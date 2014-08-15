@@ -20,6 +20,11 @@ class Movie extends Base {
 		return (isset($this->data[$name])) ? $this->data[$name] : false;
 	}
 
+	public function validate()
+	{
+		return isset($this->data['id']);
+	}
+
 	public function getVideos()
 	{
 		if(!$this->videos)
