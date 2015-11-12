@@ -1,8 +1,5 @@
 <?php namespace Choi\TmdbApi;
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Collection;
-
 class Config {
 
 	/**
